@@ -1,50 +1,61 @@
-$("#mount_0_0").ready(() => {
+$(document).ready(() => {
 
-	download_button = `<div class="download_button">
-							<img src="` + chrome.runtime.getURL("/download_icon.png") + `" alt="" height="20" width="20">
-						</div>`;
+	function isHDAvailable(videoJson) {
+		return (videoJson['playable_url_quality_hd'] != null);
+	}
 
-	function recursivelyGetParent(item, level) {
-		if (level === 0) {
-			return item;
-		} else {
-			return recursivelyGetParent(item.parentNode, level - 1);
+	function unescapeUrl(url) {
+		return url.replace(/\//, "/").replace(/&amp;/g, "&");
+	}
+
+	function getJSONString(source, startMark) {
+		let start = source.indexOf(startMark);
+		if (start == -1) {
+			return "";
 		}
-	}
 
-	function facebookLoadCallback(event) {
-		// console.log("Start scouting link");
-		video_link_elements = $("a.oajrlxb2.g5ia77u1.gcieejh5.bn081pho.humdl8nn.izx4hr6d.rq0escxv.nhd2j8a9.q9uorilb.p7hjln8o.qjjbsfad.fv0vnmcu.w0hvl6rk.ggphbty4.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.l9j0dhe7.abiwlrkh.p8dawk7l.i2p6rm4e.jnigpg78.byekypgc");
+		start += startMark.length;
 
-		video_links = video_link_elements.map((id, item) => {
-			return item.toString().replace("www", "m");
-		});
 
-		// Add download button
-		video_link_elements.each((id, item) => {
-			parent = recursivelyGetParent(item, 15);
-			// console.log($(parent).find("#download_button"));
-			if ($(parent).find(".download_button").length == 0) {
-				$(parent).find(".nqmvxvec.j83agx80.jnigpg78.cxgpxx05.dflh9lhu.sj5x9vvc.scb9dxdr.odw8uiq3").append(download_button);
-				$(parent).find(".download_button")[0].onclick = (e) => {
-					console.log(e);
-				};
-			} else {				
+		let count = 0, end = 0;
+
+		for (end = start; end < source.length; end ++) {
+			if (source[end] == '{') {
+				count ++;
 			}
-		});
-	};
+			if (source[end] == '}') {
+				count --;
+				if (count === 0) {
+					break;
+				}
+			}
+		}
 
-	function httpGetAsync(url, callback) {
-	    var xmlHttp = new XMLHttpRequest();
-	    xmlHttp.onreadystatechange = function() { 
-	        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-	            callback(xmlHttp.responseText);
-	    }
-	    xmlHttp.open("GET", url, true);
-	    xmlHttp.send(null);
+		return source.substring(start, end + 1);
+	}
+	const generatedSource = new XMLSerializer().serializeToString(document);
+	const videoJSONObject = JSON.parse(getJSONString(generatedSource, "\"data\":{\"video\":"));	
+
+	let urlMark = "playable_url";
+
+	if (isHDAvailable(videoJSONObject)) {
+		urlMark = "playable_url_quality_hd";
 	}
 
-	// setInterval(facebookLoadCallback, 5000);
+	const downloadLink = unescapeUrl(videoJSONObject[urlMark].toString());
 
-	document.addEventListener('DOMNodeInserted', facebookLoadCallback);
+	const downloadButton = `<div id="download_link" class="oajrlxb2 tdjehn4e qu0x051f esr5mh6w 
+															e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 
+															j83agx80 p7hjln8o kvgmc6g5 cxmmr5t8 
+															oygrvhab hcukyx3x jb3vyjys rz4wbd8a 
+															qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr 
+															f1sip0of lzcic4wl l9j0dhe7 abiwlrkh 
+															p8dawk7l bp9cbjyn s45kfl79 emlxlaya 
+															bkmhp75w spb7xbtv rt8b4zig n8ej3o3l 
+															agehan2d sk4xxmp2 taijpn5t tv7at329 thwo4zme">
+								<a href="` + downloadLink + `">
+									<img src="` + chrome.runtime.getURL("download_icon.png") + `"/>
+								</a>
+							</div>`;
+	$(".bkfpd7mw.buofh1pr.j83agx80").append(downloadButton);
 });

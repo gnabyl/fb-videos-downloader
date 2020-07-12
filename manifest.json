@@ -5,13 +5,16 @@
   "content_scripts": [
   	{
   	  "js": ["jquery.js", "background.js"],
-      "matches": [ "http://www.facebook.com/*", "https://www.facebook.com/*"]
+      "matches": [ "http://www.facebook.com/*/videos/*", "https://www.facebook.com/*/videos/*"]
   	}
   ],
   "page_action": {
     "default_popup": "menu.html",
     "default_icon": "icon.png"
   },
+  "permissions": [
+    "contextMenus", "tabs"
+  ],
   "web_accessible_resources": ["download_icon.png"],
   "manifest_version": 2
 }
