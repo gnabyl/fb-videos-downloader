@@ -33,8 +33,11 @@ $(document).ready(() => {
 
 		return source.substring(start, end + 1);
 	}
+
 	const generatedSource = new XMLSerializer().serializeToString(document);
-	const videoJSONObject = JSON.parse(getJSONString(generatedSource, "\"data\":{\"video\":"));	
+	const jsonString = getJSONString(generatedSource, "\"data\":{\"video\":");
+
+	const videoJSONObject = JSON.parse(jsonString);	
 
 	let urlMark = "playable_url";
 
@@ -52,10 +55,16 @@ $(document).ready(() => {
 															f1sip0of lzcic4wl l9j0dhe7 abiwlrkh 
 															p8dawk7l bp9cbjyn s45kfl79 emlxlaya 
 															bkmhp75w spb7xbtv rt8b4zig n8ej3o3l 
-															agehan2d sk4xxmp2 taijpn5t tv7at329 thwo4zme">
+															agehan2d sk4xxmp2 taijpn5t tv7at329 
+															thwo4zme">
 								<a href="` + downloadLink + `">
 									<img src="` + chrome.runtime.getURL("download_icon.png") + `"/>
 								</a>
 							</div>`;
+	if ($("#download_link")) {
+		$("#download_link").remove();
+	}
 	$(".bkfpd7mw.buofh1pr.j83agx80").append(downloadButton);
+
+	
 });
