@@ -12,5 +12,6 @@
     "default_popup": "menu.html",
     "default_icon": "icon.png"
   },
+  "web_accessible_resources": ["download_icon.png"],
   "manifest_version": 2
 }
