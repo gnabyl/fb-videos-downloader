@@ -41,7 +41,6 @@ function createDownloadButton() {
 
 	let videoJSONObject = JSON.parse(jsonString);	
 
-	console.log(videoJSONObject);
 
 	let urlMark = "playable_url";
 
@@ -51,22 +50,6 @@ function createDownloadButton() {
 
 	let downloadLink = unescapeUrl(videoJSONObject[urlMark].toString());
 
-	console.log(downloadLink);
-
-	// let downloadButton = `<div class="oajrlxb2 tdjehn4e qu0x051f esr5mh6w 
-	// 														e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 
-	// 														j83agx80 p7hjln8o kvgmc6g5 cxmmr5t8 
-	// 														oygrvhab hcukyx3x jb3vyjys rz4wbd8a 
-	// 														qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr 
-	// 														f1sip0of lzcic4wl l9j0dhe7 abiwlrkh 
-	// 														p8dawk7l bp9cbjyn s45kfl79 emlxlaya 
-	// 														bkmhp75w spb7xbtv rt8b4zig n8ej3o3l 
-	// 														agehan2d sk4xxmp2 taijpn5t tv7at329 
-	// 														thwo4zme">
-	// 							<a href="` + downloadLink + `">
-	// 								<img src="` + chrome.runtime.getURL("download_icon.png") + `"/>
-	// 							</a>
-	// 						</div>`;
 
 	let downloadButton = document.createElement("div");
 	downloadButton.id = "download_link";
@@ -74,16 +57,13 @@ function createDownloadButton() {
 	downloadButton.innerHTML = `<a href="` + downloadLink + `">
 									<img src="` + chrome.runtime.getURL("download_icon.png") + `"/>
 								</a>`;
-	console.log(downloadButton);
 
 	let buttonContainer = document.getElementsByClassName("bkfpd7mw")[1];
 
-	console.log(buttonContainer==undefined);
 
 	let findingContainer = setInterval(() => {
 		buttonContainer = document.getElementsByClassName("bkfpd7mw")[1];
 		if (buttonContainer != undefined) {
-			console.log(buttonContainer);
 			buttonContainer.appendChild(downloadButton);
 			clearInterval(findingContainer);
 		}

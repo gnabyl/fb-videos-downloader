@@ -4,10 +4,14 @@
   "description": "A helper chrome extension to download facebook's videos, even in private group",
   "content_scripts": [
   	{
-  	  "js": ["content.js"],
+  	  "js": ["videoplayer.js"],
       "matches": [ "*://*.facebook.com/*videos*" ],
       "run_at": "document_end"
-  	}
+  	},
+    {
+      "js": ["group.js"],
+      "matches": [ "*://*.facebook.com/groups*" ]
+    }
   ],
   "page_action": {
     "default_popup": "menu.html",
