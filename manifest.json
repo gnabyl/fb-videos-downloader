@@ -1,11 +1,12 @@
 {
-  "name": "FB Videos Downloader",
+  "name": "Facebook Videos Downloader",
   "version": "1.0",
   "description": "A helper chrome extension to download facebook's videos, even in private group",
   "content_scripts": [
   	{
-  	  "js": ["jquery.js", "content.js"],
-      "matches": [ "http://www.facebook.com/*/videos/*", "https://www.facebook.com/*/videos/*"]
+  	  "js": ["content.js"],
+      "matches": [ "*://*.facebook.com/*videos*" ],
+      "run_at": "document_end"
   	}
   ],
   "page_action": {
@@ -13,7 +14,9 @@
     "default_icon": "icon.png"
   },
   "permissions": [
-    "contextMenus", "tabs"
+    "contextMenus", 
+    "tabs",
+    "*://*/*"
   ],
   "web_accessible_resources": ["download_icon.png"],
   "manifest_version": 2
