@@ -13,8 +13,11 @@
       "matches": [ "*://*.facebook.com/groups*" ]
     }
   ],
-  "page_action": {
-    "default_popup": "menu.html",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
     "default_icon": "icon.png"
   },
   "permissions": [
